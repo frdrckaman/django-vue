@@ -6,7 +6,7 @@ from .serializers import UserSerializer
 
 
 @api_view(['POST'])
-def Register(request):
+def register(request):
     data = request.data
 
     if data['password'] != data['password_confirm']:
@@ -18,7 +18,23 @@ def Register(request):
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def login(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    user = User.objects.filter(email=email).first()
+
+    if user is None:
+        raise exceptions.AuthenticationFailed('User not found')
+
+    if not user.check_password(password):
+        raise exceptions.AuthenticationFailed('Incorrect password')
+
+    return Response('success')
+
+
 @api_view(['GET'])
-def Users(request):
+def users(request):
     serializer = UserSerializer(User.objects.all(), many=True)
     return Response(serializer.data)
