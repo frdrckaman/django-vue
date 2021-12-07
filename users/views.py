@@ -107,9 +107,3 @@ class RoleViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         pass
-
-
-@api_view(['GET'])
-def users(request):
-    serializer = UserSerializer(User.objects.all(), many=True)
-    return Response(serializer.data)
