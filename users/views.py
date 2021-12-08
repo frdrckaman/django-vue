@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import exceptions, viewsets, status, generics, mixins
 from rest_framework.views import APIView
 
+from djangoVue.pagenation import CustomPagination
 from .authentification import generate_access_token, JWTAuthentication
 from .models import User, Permission, Role
 from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
@@ -130,6 +131,7 @@ class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    pagination_class = CustomPagination
 
     def get(self, request, pk=None):
         if pk:
