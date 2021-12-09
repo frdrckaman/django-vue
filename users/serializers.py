@@ -57,3 +57,11 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+    # when this is commented first name is update
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
