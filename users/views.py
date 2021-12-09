@@ -139,18 +139,26 @@ class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.
                 'data': self.retrieve(request, pk).data
             })
 
-        return Response({
-            'data': self.list(request).data
-        })
+        return self.list(request)
 
     def post(self, request):
+
+        request.data.update({
+            'password': 1234,
+            'role': request.data['role_id']
+        })
         return Response({
             'data': self.create(request).data
         })
 
     def put(self, request, pk=None):
+
+        if request.data['role_id']:
+            request.data.update({
+                'role': request.data['role_id']
+            })
         return Response({
-            'data': self.update(request, pk).data
+            'data': self.partial_update(request, pk).data
         })
 
     def delete(self, request, pk=None):
