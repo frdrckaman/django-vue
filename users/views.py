@@ -162,7 +162,7 @@ class UserGenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.
         })
 
     def delete(self, request, pk=None):
-        return self.update(request, pk)
+        return self.destroy(request, pk)
 
 
 class ProfileInfoAPIView(APIView):
